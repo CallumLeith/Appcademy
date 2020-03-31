@@ -4,25 +4,17 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(20.0),
-              color: Theme.of(context).primaryColor,
-              child: Column(
-                children: <Widget>[
-                Container(
-                  width: 100.0,
-                  height: 100.0,
-                ),
-              ],),
-            ),
-            FlatButton(
-                  onPressed: null, 
-                  child: Text('Study')
-                )
-          ],)
-      );
+        child: ListView(
+        children: <Widget>[
+          ListTile(
+            leading: CircleAvatar(backgroundImage:  NetworkImage("https://i1.wp.com/codesundar.com/wp-content/uploads/2019/08/cropped-codesundar-favicon.png")),
+            title: Text("codesundar"),
+            subtitle: Text("me@codesundar.com"),
+          ),
+          ListTile(leading: Icon(Icons.home), title: Text("Home"), onLongPress: () {print('test');},),
+          ListTile(leading: Icon(Icons.grid_on), title: Text("Products")),
+          ListTile(leading: Icon(Icons.contacts), title: Text("Contact Us")),
+        ],
+      ));
   }
 }
