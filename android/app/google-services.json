@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1064499399600",
+    "firebase_url": "https://appcademy-f3f67.firebaseio.com",
+    "project_id": "appcademy-f3f67",
+    "storage_bucket": "appcademy-f3f67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064499399600:android:b743520a94bf4f3ab1a475",
+        "android_client_info": {
+          "package_name": "com.testing.appcademy_v1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064499399600-rfm59ksr2boirgodospo5s29vd2qqv09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATWxE5lqB6niJDLabkeAi-uAmcvQXL6k4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064499399600-rfm59ksr2boirgodospo5s29vd2qqv09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
