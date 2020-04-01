@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 // class UserInformationState extends StatelessWidget {
 //   @override
@@ -10,11 +10,3 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //    checkifDocumentExists(user);
 //   }
 
-Future checkifDocumentExists(user) async {
-   final snapShot = await Firestore.instance
-  .collection('userInfo')
-  .document(user.uid)
-  .get();
-  return snapShot;
-
-}

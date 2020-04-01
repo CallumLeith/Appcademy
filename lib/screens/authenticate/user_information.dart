@@ -1,18 +1,27 @@
+import 'package:appcademy_v1/screens/home/home.dart';
 import 'package:flutter/material.dart';
 
 
 class UserInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          Text('data')
-      ],)
-      );
-  }
-}
+        return Scaffold(
+      appBar: AppBar(
+        title: Text('User Information'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text('Continue'),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          },
+        ),
+      ),
+    );
+     }}
   //   return loading ? Loading() : Scaffold(
   //     backgroundColor: Colors.white,
   //     appBar: AppBar(
@@ -85,3 +94,4 @@ class UserInformation extends StatelessWidget {
   //   );
   // }
 
+ 
