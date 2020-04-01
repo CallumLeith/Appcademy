@@ -1,97 +1,115 @@
 import 'package:appcademy_v1/screens/home/home.dart';
+import 'package:appcademy_v1/services/auth.dart';
+import 'package:appcademy_v1/shared/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:appcademy_v1/services/auth.dart';
+
+class UserInformation extends StatefulWidget {
 
 
-class UserInformation extends StatelessWidget {
+  @override
+  _userInformationState createState() => _userInformationState();
+}
+
+class _userInformationState extends State<UserInformation> {
+
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
+
+  //text field state
+  String firstName = '';
+  String surname = '';
+  String phoneNumber = '';
+
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    //return loading ? Loading() : Scaffold(
+      
+      return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('User Information'),
+        backgroundColor: Colors.red,
+        elevation: 0.0,
+        title: Text('Sign In'),
       ),
-      body: Center(
-        child: RaisedButton(
-          child: Text('Continue'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Home()),
-            );
-          },
-        ),
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'First Name'),
+                validator: (val) => val.isEmpty ? 'Enter Your First Name' : null,
+                onChanged: (val) {
+                  setState(() => firstName = val.trim());
+                },
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Surname'),
+                validator: (val) => val.isEmpty ? 'Enter Your Surname' : null,
+                onChanged: (val) {
+                  setState(() => surname = val);
+                },
+              ),
+              SizedBox(height: 20.0),
+              TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Phone Number'),
+                validator: (val) => val.length < 11 ? 'Enter Your Phone Number' : null,
+                onChanged: (val) {
+                  setState(() => phoneNumber = val);
+                },
+              ),
+              SizedBox(height: 20.0),
+              RaisedButton(
+                color: Colors.red,
+                child: Text(
+                  'Continue',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                _auth.updateUserInformation(firstName, surname, phoneNumber);
+                //return _formKey.currentState.validate() ? Home() : null;    //CODE DOESNT WORK - WILL USE PUSH FOR NOW.  
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),
+  );
+                }),
+              SizedBox(height: 12.0), 
+            ],
+          ),
+        )
       ),
     );
-     }}
-  //   return loading ? Loading() : Scaffold(
-  //     backgroundColor: Colors.white,
-  //     appBar: AppBar(
-  //       backgroundColor: Colors.red,
-  //       elevation: 0.0,
-  //       title: Text('Register'),
-  //     ),
-  //     body: Container(
-  //       padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-  //       child: Form(
-  //         key: _formKey,
-  //         child: Column(
-  //           children: <Widget>[
-  //             SizedBox(height: 20.0),
-  //             TextFormField(
-  //               decoration: textInputDecoration.copyWith(hintText: 'First Name'),
-  //               validator: (val) => val.isEmpty ? 'Enter Your Name.' : null,
-  //               onChanged: (val) {
-  //                 setState(() => firstName = val);
-  //               },
-  //             ),
-  //             SizedBox(height: 20.0),
-  //             TextFormField(
-  //               decoration: textInputDecoration.copyWith(hintText: 'Surname'),
-  //               validator: (val) => val.length < 6 ? 'Enter Your Surname' : null,
-  //               obscureText: true,
-  //               onChanged: (val) {
-  //                 setState(() => surname = val);
-  //               },
-  //             ),
-  //             SizedBox(height: 20.0),
-  //             TextFormField(
-  //               decoration: textInputDecoration.copyWith(hintText: 'Phone Number'),
-  //               validator: (val) => val.length < 6 ? 'Enter Your Phone Number' : null,
-  //               obscureText: true,
-  //               onChanged: (val) {
-  //                 setState(() => phoneNumber = val);
-  //               },
-  //             ),
-  //             SizedBox(height: 20.0),
-  //             RaisedButton(
-  //               color: Colors.red,
-  //               child: Text(
-  //                 'Register',
-  //                 style: TextStyle(color: Colors.white),
-  //               ),
-  //               onPressed: ()  async {
-  //                 if (_formKey.currentState.validate()) {
-  //                   setState(() => loading = true);
-  //                   dynamic result = await _auth.updateUserInformation(firstName, surname, phoneNumber);
-  //                   if (result == null) {
-  //                     setState(() { 
-  //                       error = 'Error with updating User Information';
-  //                     loading = false;
-  //                     });
-  //                   }
-  //                 }
-  //               },
-  //             ),
-  //             SizedBox(height: 12.0),
-  //             Text(
-  //               error,
-  //               style: TextStyle(color: Colors.red, fontSize: 14.0),
-  //             )
+  }
+  
+}
 
-  //           ],
-  //         ),
-  //       )
-  //     ),
-  //   );
-  // }
+
+
+// class UserInformation extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//         return Scaffold(
+//       appBar: AppBar(
+//         title: Text('User Information'),
+//       ),
+//       body: Center(
+//         child: RaisedButton(
+//           child: Text('Continue'),
+//           onPressed: () {
+//             Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => Home()),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//      }}
+  
 
  

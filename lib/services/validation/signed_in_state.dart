@@ -9,6 +9,7 @@ import 'package:appcademy_v1/screens/home/home.dart';
 import 'package:appcademy_v1/models/user.dart';
 
 
+
 class SignedIn extends StatefulWidget {
   @override
 _SignedInState createState() => _SignedInState();
@@ -27,15 +28,14 @@ class _SignedInState extends State<SignedIn> {
     Widget build(BuildContext context) {
 
     final user = Provider.of<User>(context);
-
-
+    //print(user.uid);
 
      if (user == null) {
       return Authenticate();
     } else {
-      
+      checkifDocumentExists();
       if (hasData == false) {
-        return UserInformation();
+      return UserInformation();
       } else {
         return Home();
       }

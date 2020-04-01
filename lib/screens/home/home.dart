@@ -1,3 +1,4 @@
+import 'package:appcademy_v1/screens/authenticate/authenticate.dart';
 import 'package:appcademy_v1/screens/home/main_drawer.dart';
 import 'package:appcademy_v1/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,9 @@ final AuthService _auth = AuthService();
         title: Text('My Subjects'),
         actions: <Widget>[
           FlatButton.icon(onPressed: () async {
-            await _auth.signOut();},
+            await _auth.signOut();
+            Navigator.pop(context);
+          },
             icon: Icon(Icons.person),
             label: Text('Logout')),
         ],
