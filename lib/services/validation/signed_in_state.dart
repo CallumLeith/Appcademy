@@ -29,14 +29,18 @@ class _SignedInState extends State<SignedIn> {
 
     final user = Provider.of<User>(context);
     //print(user.uid);
+  
+    
+  
+//checkifDocumentExists();
 
      if (user == null) {
       return Authenticate();
     } else {
       checkifDocumentExists();
-      if (hasData == false) {
+      if (hasData == false) {   
       return UserInformation();
-      } else {
+      } else if (hasData == true){
         return Home();
       }
     }
@@ -48,13 +52,13 @@ Future checkifDocumentExists() async {
 
   if (user != null) {
    print(user.uid.toString());
-final snapShot = await Firestore.instance.collection('userInfo').document(user.uid).get();
-if(snapShot.exists){
-       setState(() {
+final DocumentSnapshot snapShot = await Firestore.instance.collection('userInfo').document(user.uid).get();
+ if (snapShot.exists) {
+  setState(() {
       hasData = true;
    });
 } else {
-  setState(() {
+   setState(() {
       hasData = false;
    });
 }

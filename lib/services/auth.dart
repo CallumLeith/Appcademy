@@ -39,7 +39,7 @@ String errorMessage = '';
     FirebaseUser user = result.user;
 
     //create a new document for the user with the uid
-    await DatabaseService(uid: user.uid).updateUserInfo('null', 'null', 'null');
+    //await DatabaseService(uid: user.uid).updateUserInfo('null', 'null', 'null');
 
     return _userFromFirebaseUser(user);
   } catch(e) {

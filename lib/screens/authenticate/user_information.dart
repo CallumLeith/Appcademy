@@ -1,10 +1,9 @@
 import 'package:appcademy_v1/screens/home/home.dart';
 import 'package:appcademy_v1/services/auth.dart';
 import 'package:appcademy_v1/shared/constants.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:appcademy_v1/services/auth.dart';
+
+bool userinformation = false;
 
 class UserInformation extends StatefulWidget {
 
@@ -75,8 +74,9 @@ class _userInformationState extends State<UserInformation> {
                 onPressed: () {
                 _auth.updateUserInformation(firstName, surname, phoneNumber);
                 //return _formKey.currentState.validate() ? Home() : null;    //CODE DOESNT WORK - WILL USE PUSH FOR NOW.  
+                userinformation = true;
                  Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),
-  );
+  );            
                 }),
               SizedBox(height: 12.0), 
             ],
