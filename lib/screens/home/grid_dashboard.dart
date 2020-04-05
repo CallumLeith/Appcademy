@@ -4,43 +4,31 @@ class GridDashboard extends StatelessWidget {
 
 Subject math = new Subject(
   title: "Math",
-  subtitle: "",
-  event: "",
   img: ""
 );
 
 Subject english = new Subject(
   title: "English",
-  subtitle: "",
-  event: "",
   img: ""
 );
 
 Subject chemistry = new Subject(
   title: "Chemistry",
-  subtitle: "",
-  event: "",
   img: ""
 );
 
 Subject biology = new Subject(
   title: "Biology",
-  subtitle: "",
-  event: "",
   img: ""
 );
 
 Subject physics = new Subject(
   title: "Physics",
-  subtitle: "",
-  event: "",
   img: ""
 );
 
 Subject computing = new Subject(
   title: "Computing",
-  subtitle: "",
-  event: "",
   img: ""
 );
 
@@ -61,12 +49,9 @@ Subject computing = new Subject(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset(data.img, width:42,),
-                SizedBox(height: 14,),
-                Text(data.title),
-                SizedBox(height: 14,),
-                Text(data.subtitle),
-                SizedBox(height: 14,),
-                Text(data.event)
+                SizedBox(height: 30,),
+                Text(data.title,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)),
               ],
             ),
           );
@@ -79,8 +64,6 @@ Subject computing = new Subject(
 
 class Subject {
   String title;
-  String subtitle;
-  String event;
   String img;
-  Subject({this.title, this.subtitle, this.event, this.img});
+  Subject({this.title, this.img});
 }
