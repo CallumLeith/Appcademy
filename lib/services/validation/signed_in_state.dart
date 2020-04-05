@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:appcademy_v1/screens/authenticate/user_information.dart';
 import 'package:appcademy_v1/screens/home/home.dart';
 import 'package:appcademy_v1/models/user.dart';
+import 'package:appcademy_v1/services/globals.dart';
 
 
 
@@ -48,8 +49,9 @@ class _SignedInState extends State<SignedIn> {
 
 
 Future checkifDocumentExists() async {
+  if (signInCounter < 2) {
   final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
+  signInCounter = signInCounter + 1;
   if (user != null) {
    print(user.uid.toString());
 final DocumentSnapshot snapShot = await Firestore.instance.collection('userInfo').document(user.uid).get();
@@ -61,6 +63,7 @@ final DocumentSnapshot snapShot = await Firestore.instance.collection('userInfo'
    setState(() {
       hasData = false;
    });
+}
 }
 }
 }

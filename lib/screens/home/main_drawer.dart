@@ -1,20 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:appcademy_v1/services/auth.dart';
+import 'package:appcademy_v1/services/globals.dart';
+import 'package:appcademy_v1/screens/authenticate/user_information.dart';
 
 class MainDrawer extends StatelessWidget {
-  @override
+
+  final AuthService _auth = AuthService();
+  
   Widget build(BuildContext context) {
     return Drawer(
-        child: ListView(
+        child: Column(
         children: <Widget>[
-          ListTile(
-            leading: CircleAvatar(backgroundImage:  NetworkImage("https://i1.wp.com/codesundar.com/wp-content/uploads/2019/08/cropped-codesundar-favicon.png")),
-            title: Text("codesundar"),
-            subtitle: Text("me@codesundar.com"),
+          Expanded(
+            // ListView contains a group of widgets that scroll inside the drawer
+            child: ListView(
+              children: <Widget>[
+                //MAIN MENUS HERE
+              ],
+            ),
           ),
-          ListTile(leading: Icon(Icons.home), title: Text("Home"), onLongPress: () {print('test');},),
-          ListTile(leading: Icon(Icons.grid_on), title: Text("Products")),
-          ListTile(leading: Icon(Icons.contacts), title: Text("Contact Us")),
+          // This container holds the align
+          Container(
+              // This align moves the children to the bottom
+              child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  // This container holds all the children that will be aligned
+                  // on the bottom and should not scroll with the above ListView
+                  child: Container(
+                      child: Column(
+                    children: <Widget>[
+                      Divider(),
+                      ListTile(
+                          leading: Icon(Icons.settings),
+                          onTap: null,
+                          title: Text('Settings'),
+                      ),
+                      ListTile(
+                          leading: Icon(Icons.person),
+                          onTap: () async {
+                        
+            await _auth.signOut();
+            if (userinformation == true) {
+            Navigator.pop(context);
+            userinformation = false;
+            }
+            signInCounter = 0;
+          },
+                          title: Text('Log Out')),
+                      
+                    ],
+                  )
+                )
+              )
+            )
         ],
-      ));
+      ),);
   }
 }
