@@ -13,9 +13,15 @@ class MainDrawer extends StatelessWidget {
         children: <Widget>[
           Expanded(
             // ListView contains a group of widgets that scroll inside the drawer
+          
             child: ListView(
               children: <Widget>[
-                //MAIN MENUS HERE
+                SizedBox(height: 125.0),
+                ListTile(
+                          leading: Icon(Icons.dashboard),
+                          enabled: false,
+                          title: Text('Dashboard'),
+                      ),
               ],
             ),
           ),
@@ -36,7 +42,7 @@ class MainDrawer extends StatelessWidget {
                           title: Text('Settings'),
                       ),
                       ListTile(
-                          leading: Icon(Icons.person),
+                          leading: Icon(Icons.person, color: Colors.red,),
                           onTap: () async {
                         
             await _auth.signOut();
@@ -46,7 +52,7 @@ class MainDrawer extends StatelessWidget {
             }
             signInCounter = 0;
           },
-                          title: Text('Log Out')),
+                          title: Text('Log Out', style: TextStyle(color: Colors.red),)),
                       
                     ],
                   )

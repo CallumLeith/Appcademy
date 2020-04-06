@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
         title: Text('Appcademy',
         style: TextStyle(color: Colors.red),
         textAlign: TextAlign.center),
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFEFEEEE),
         iconTheme: new IconThemeData(color: Colors.red),
         centerTitle: true,
         // actions: <Widget>[
@@ -29,7 +29,9 @@ class Home extends StatelessWidget {
         // ],
       ),
       drawer: MainDrawer(),
-      body: Column(
+      body: Container(
+        color: Color(0xFFEFEEEE),
+        child: Column(
         children: <Widget>[
           SizedBox(
             height: 15,
@@ -40,6 +42,7 @@ class Home extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Column(
+                  
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('Welcome,', style: TextStyle(fontSize: 25.0),),
@@ -61,6 +64,7 @@ class Home extends StatelessWidget {
         ],
         //BODY OF THE APP GOES HERE
       ),
+      )
       );
   }
 }

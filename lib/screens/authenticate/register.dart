@@ -20,6 +20,7 @@ class _RegisterState extends State<Register> {
 
    String email = '';
   String password = '';
+  String confirmPassword = '';
   String error = '';
 
   @override
@@ -50,6 +51,7 @@ class _RegisterState extends State<Register> {
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
                 validator: validateEmail,
+                autocorrect: false,
                 onChanged: (val) {
                   setState(() => email = val.trim());
                 },
@@ -59,6 +61,7 @@ class _RegisterState extends State<Register> {
                 decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 validator: (val) => val.length < 6 ? 'Password too short' : null,
                 obscureText: true,
+                autocorrect: false,
                 onChanged: (val) {
                   setState(() => password = val);
                 },
@@ -66,10 +69,11 @@ class _RegisterState extends State<Register> {
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Comfirm Password'),
-                validator: (val) => val != password ? 'Passwords do not match' : null,
+                validator: (val) => val != confirmPassword ? 'Passwords do not match' : null,
                 obscureText: true,
+                autocorrect: false,
                 onChanged: (val) {
-                  setState(() => password = val);
+                  setState(() => confirmPassword = val);
                 },
               ),
               SizedBox(height: 20.0),

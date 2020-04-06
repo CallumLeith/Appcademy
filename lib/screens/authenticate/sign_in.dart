@@ -28,9 +28,10 @@ class _SignInState extends State<SignIn> {
     return loading ? Loading() : Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xFFEFEEEE),
         elevation: 0.0,
-        title: Text('Sign In'),
+        title: Text('Sign In', style: TextStyle(color: Colors.red),),
+        centerTitle: true,
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(Icons.person),
@@ -49,6 +50,7 @@ class _SignInState extends State<SignIn> {
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
+                autocorrect: false,
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
                 validator: (val) => val.isEmpty ? 'Enter an Email' : null,
                 onChanged: (val) {
@@ -57,6 +59,7 @@ class _SignInState extends State<SignIn> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                autocorrect: false,
                 decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 validator: (val) => val.length < 6 ? 'Password too short' : null,
                 obscureText: true,

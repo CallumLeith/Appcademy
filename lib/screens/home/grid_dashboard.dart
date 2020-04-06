@@ -37,21 +37,36 @@ Subject computing = new Subject(
     List<Subject> myList = [math, english, chemistry, biology, physics, computing];
     return Flexible(
       child: GridView.count(
-        childAspectRatio: 1.0,
+        childAspectRatio: 2,
         padding: EdgeInsets.only(left:16.0, right:16.0),
-        crossAxisCount: 2,
+        crossAxisCount: 1,
         crossAxisSpacing: 18,
         mainAxisSpacing: 18,
         children: myList.map((data){
           return Container(
-            decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+              color: Colors.white,
+               borderRadius: BorderRadius.circular(12),
+                 boxShadow: [
+      BoxShadow(
+        color: Colors.white.withOpacity(0.8),
+        offset: Offset(-6.0, -6.0),
+        blurRadius: 16.0,
+      ),
+      BoxShadow(
+        color: Colors.black.withOpacity(0.1),
+        offset: Offset(6.0, 6.0),
+        blurRadius: 16.0,
+      ),
+    ],
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image.asset(data.img, width:42,),
                 SizedBox(height: 30,),
                 Text(data.title,
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white)),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold,)),
               ],
             ),
           );
