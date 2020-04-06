@@ -74,7 +74,9 @@ class _userInformationState extends State<UserInformation> {
                 onPressed: () {
                 _auth.updateUserInformation(firstName, surname, phoneNumber);
                 //return _formKey.currentState.validate() ? Home() : null;    //CODE DOESNT WORK - WILL USE PUSH FOR NOW.  
-                userinformation = true;
+                setState(() {
+                         userinformation = true;
+                });    
                  Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),
   );            
                 }),
