@@ -26,11 +26,13 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.white,
         elevation: 0.0,
-        title: Text('Register'),
+        title: Text('Register', style: TextStyle(color: Colors.red),),
+        centerTitle: true,
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(Icons.person),
@@ -42,12 +44,15 @@ class _RegisterState extends State<Register> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        decoration: gradientBackground,
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+          //  crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 20.0),
+              SizedBox(height: 100.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
                 validator: validateEmail,
@@ -77,7 +82,12 @@ class _RegisterState extends State<Register> {
                 },
               ),
               SizedBox(height: 20.0),
-              RaisedButton(
+                    Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
+              ),
+              Spacer(),
+             RaisedButton(
                 color: Colors.red,
                 child: Text(
                   'Register',
@@ -99,12 +109,7 @@ class _RegisterState extends State<Register> {
                     }
                   }
                 },
-              ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              )
+              ),    
 
             ],
             

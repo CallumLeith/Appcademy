@@ -1,6 +1,9 @@
 import 'package:appcademy_v1/models/user.dart';
 import 'package:appcademy_v1/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
+import 'package:device_info/device_info.dart';
+import 'package:flutter/material.dart';
 
 class AuthService {
 
@@ -23,6 +26,9 @@ Future signInWithEmailAndPassword(String email, String password) async {
   try {
     AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
     FirebaseUser user = result.user;
+
+    
+
     return _userFromFirebaseUser(user); 
   } catch(e) {
     print(e.toString());
@@ -62,6 +68,26 @@ Future signOut() async {
 
 Future updateUserInformation(String firstName, String surname, String phoneNumer) async {
   FirebaseUser user = await _auth.currentUser();
-  await DatabaseService(uid: user.uid).updateUserInfo(firstName, surname, phoneNumer);
+  String deviceID = await _getDeviceID();
+
+  
+
+
+  if (deviceID == null) {
+    //RETURN ERROR MESSAGE
+  } else {
+  await DatabaseService(uid: user.uid).updateUserInfo(firstName, surname, phoneNumer, deviceID);
+  }
+}
+
+Future<String> _getDeviceID() async {
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  if (Platform.isIOS == TargetPlatform.iOS) {
+    IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+    return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+  } else {
+    AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+    return androidDeviceInfo.androidId; // unique ID on Android
+  }
 }
 }

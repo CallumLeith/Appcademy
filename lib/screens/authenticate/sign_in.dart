@@ -26,11 +26,12 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFFEFEEEE),
+        backgroundColor: Colors.white,
         elevation: 0.0,
-        title: Text('Sign In', style: TextStyle(color: Colors.red),),
+        title: Text("Appcademy", style: TextStyle(color: Colors.red)),
         centerTitle: true,
         actions: <Widget>[
           FlatButton.icon(
@@ -43,13 +44,16 @@ class _SignInState extends State<SignIn> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        decoration: gradientBackground,
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20.0),
+              SizedBox(height: 100.0),
+
               TextFormField(
+      
                 autocorrect: false,
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
                 validator: (val) => val.isEmpty ? 'Enter an Email' : null,
@@ -67,7 +71,12 @@ class _SignInState extends State<SignIn> {
                   setState(() => password = val);
                 },
               ),
-              SizedBox(height: 20.0),
+               SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
+              ),
+              Spacer(),
               RaisedButton(
                 color: Colors.red,
                 child: Text(
@@ -90,14 +99,13 @@ class _SignInState extends State<SignIn> {
                   }
                 },
               ),
-              SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              )
+             
 
             ],
           ),
+
+
+          
         )
       ),
     );

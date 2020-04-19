@@ -1,4 +1,3 @@
-import 'package:appcademy_v1/screens/home/home.dart';
 import 'package:appcademy_v1/services/auth.dart';
 import 'package:appcademy_v1/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +27,7 @@ class _userInformationState extends State<UserInformation> {
     //return loading ? Loading() : Scaffold(
       
       return Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -35,7 +35,8 @@ class _userInformationState extends State<UserInformation> {
         title: Text('Sign In'),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        decoration: gradientBackground,
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -74,11 +75,8 @@ class _userInformationState extends State<UserInformation> {
                 onPressed: () {
                 _auth.updateUserInformation(firstName, surname, phoneNumber);
                 //return _formKey.currentState.validate() ? Home() : null;    //CODE DOESNT WORK - WILL USE PUSH FOR NOW.  
-                setState(() {
-                         userinformation = true;
-                });    
-                 Navigator.push(context, MaterialPageRoute(builder: (context) => Home()),
-  );            
+               //  Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                //return SignedIn();           
                 }),
               SizedBox(height: 12.0), 
             ],

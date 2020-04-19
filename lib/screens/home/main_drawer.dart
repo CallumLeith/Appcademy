@@ -47,7 +47,7 @@ class MainDrawer extends StatelessWidget {
                         
             await _auth.signOut();
             if (userinformation == true) {
-            Navigator.pop(context);
+            Navigator.of(context).pop();
             userinformation = false;
             }
             signInCounter = 0;
