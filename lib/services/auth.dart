@@ -1,5 +1,6 @@
 import 'package:appcademy_v1/models/user.dart';
 import 'package:appcademy_v1/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:device_info/device_info.dart';
@@ -21,73 +22,110 @@ class AuthService {
       .map(_userFromFirebaseUser); //Simplified version of code above
   }
 
+ Future<bool> checkDeviceID() async {
+
+    getDeviceIDFromFirestore() async {
+         return await Firestore.instance.collection('userInfo').getDocuments();  
+    }
+  
+    String deviceID = await _getDeviceID();               //DEVICE CHECK
+    bool deviceCheck = false;                             //true = pass
+                                                          //false = fail
+    getDeviceIDFromFirestore().then((val){
+    if(val.documents.length > 0){
+      print(deviceID);
+      print(val.documents[0].data["deviceID"]);
+    if (val.documents[0].data["deviceID"] == deviceID) {
+      deviceCheck = true;
+  }
+   return deviceCheck;   
+     }});
+     
+     }
+
 //sign in with email & password
 Future signInWithEmailAndPassword(String email, String password) async {
   try {
+
+    bool deviceCheck = await checkDeviceID();
+
+    if (deviceCheck == true) {
+
     AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
     FirebaseUser user = result.user;
-
-    
-
+    deviceCheck = false;
     return _userFromFirebaseUser(user); 
-  } catch(e) {
+    
+  }else {
+    print('test pass');
+    //RETURN ERROR STATING USER ALREADY HAS A REGISTERED DEVICE
+    return "This account is already registered with another device.";
+  }} catch(e) {
     print(e.toString());
     return null;
   }
-}
-
-//register with email & password
-Future registerWithEmailAndPassword(String email, String password) async {
-String errorMessage = '';
-
-  try {
-    AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    FirebaseUser user = result.user;
-
-    //create a new document for the user with the uid
-    //await DatabaseService(uid: user.uid).updateUserInfo('null', 'null', 'null');
-
-    return _userFromFirebaseUser(user);
-  } catch(e) {
-    errorMessage = e.toString();
-    print(errorMessage);
-    return null;
-    
-    
-  }
-}
-
-//sign out
-Future signOut() async {
-  try {
-    return await _auth.signOut();
-  } catch(e){
-    print(e.toString());
-    return null;
-  }}
-
-Future updateUserInformation(String firstName, String surname, String phoneNumer) async {
-  FirebaseUser user = await _auth.currentUser();
-  String deviceID = await _getDeviceID();
-
   
+          }
 
-
-  if (deviceID == null) {
-    //RETURN ERROR MESSAGE
-  } else {
-  await DatabaseService(uid: user.uid).updateUserInfo(firstName, surname, phoneNumer, deviceID);
-  }
-}
-
-Future<String> _getDeviceID() async {
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  if (Platform.isIOS == TargetPlatform.iOS) {
-    IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
-    return iosDeviceInfo.identifierForVendor; // unique ID on iOS
-  } else {
-    AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
-    return androidDeviceInfo.androidId; // unique ID on Android
-  }
-}
-}
+         
+        
+        
+        
+        
+        //register with email & password
+        Future registerWithEmailAndPassword(String email, String password) async {
+        String errorMessage = '';
+        
+          try {
+            AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+            FirebaseUser user = result.user;
+        
+            //create a new document for the user with the uid
+            //await DatabaseService(uid: user.uid).updateUserInfo('null', 'null', 'null');
+        
+            return _userFromFirebaseUser(user);
+          } catch(e) {
+            errorMessage = e.toString();
+            print(errorMessage);
+            return null;
+            
+            
+          }
+        }
+        
+        //sign out
+        Future signOut() async {
+          try {
+            return await _auth.signOut();
+          } catch(e){
+            print(e.toString());
+            return null;
+          }}
+        
+        Future updateUserInformation(String firstName, String surname, String phoneNumer) async {
+          FirebaseUser user = await _auth.currentUser();
+          String deviceID = await _getDeviceID();
+        
+          
+        
+        
+          if (deviceID == null) {
+            //RETURN ERROR MESSAGE
+          } else {
+          await DatabaseService(uid: user.uid).updateUserInfo(firstName, surname, phoneNumer, deviceID);
+          }
+        }
+        
+        Future<String> _getDeviceID() async {
+          DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+          if (Platform.isIOS == TargetPlatform.iOS) {
+            IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
+            return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+          } else {
+            AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+            return androidDeviceInfo.androidId; // unique ID on Android
+          }
+        }
+    }
+      
+    

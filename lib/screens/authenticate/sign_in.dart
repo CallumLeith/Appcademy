@@ -95,6 +95,8 @@ class _SignInState extends State<SignIn> {
                       error = 'Could not sign in with those credentials';
                       loading = false;
                       });
+                    } else if (result == "This account is already registered with another device.") {
+                      error = result;
                     }
                   }
                 },
