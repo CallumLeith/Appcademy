@@ -1,7 +1,9 @@
 import 'package:appcademy_v1/services/auth.dart';
 import 'package:appcademy_v1/shared/loading.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:appcademy_v1/shared/constants.dart';
+
 
 class SignIn extends StatefulWidget {
 
@@ -17,6 +19,7 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
+  bool deviceCheck = false;
 
   //text field state
   String email = '';
@@ -86,21 +89,26 @@ class _SignInState extends State<SignIn> {
                 onPressed: ()  async {
                   setState(() => loading = true);
                   if (_formKey.currentState.validate()) {
-                      dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                      await checkDeviceID();
+                      print(deviceCheck);
+                      dynamic result = await _auth.signInWithEmailAndPassword(email, password, deviceCheck);
+                     
+
                       if(this.mounted) {
                       setState(() => loading = false);
-                       } //ERROR OCCURS HERE
-                    if (result == null) {
+                       } 
+                    if (result != null) {
                       setState(() {
-                      error = 'Could not sign in with those credentials';
+                      error = result;
                       loading = false;
                       });
-                    } else if (result == "This account is already registered with another device.") {
-                      error = result;
-                    }
+                    // } else if (result == "This account is already registered with another device.") {
+                    //   error = result;
+                    // }
+                  
                   }
-                },
-              ),
+                }}
+              )
              
 
             ],
@@ -111,5 +119,23 @@ class _SignInState extends State<SignIn> {
         )
       ),
     );
-  }
+  }  
+     checkDeviceID() async {
+
+    final AuthService _auth = AuthService();    
+  
+    String deviceID = await _auth.getDeviceID();             //DEVICE CHECK                           //true = pass
+                                                          //false = fail
+    await Firestore.instance.collection('userInfo').getDocuments().then((val){
+    if(val.documents.length > 0){
+      print(deviceID);
+      print(val.documents[0].data["deviceID"]);
+    if (val.documents[0].data["deviceID"] == deviceID) {
+      setState(() => deviceCheck = true);
+  } 
+     }});
+     
+     }
 }
+ 
+

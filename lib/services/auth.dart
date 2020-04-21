@@ -1,6 +1,5 @@
 import 'package:appcademy_v1/models/user.dart';
 import 'package:appcademy_v1/services/database.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:io';
 import 'package:device_info/device_info.dart';
@@ -22,56 +21,63 @@ class AuthService {
       .map(_userFromFirebaseUser); //Simplified version of code above
   }
 
- Future<bool> checkDeviceID() async {
-
-    getDeviceIDFromFirestore() async {
-         return await Firestore.instance.collection('userInfo').getDocuments();  
-    }
-  
-    String deviceID = await _getDeviceID();               //DEVICE CHECK
-    bool deviceCheck = false;                             //true = pass
-                                                          //false = fail
-    getDeviceIDFromFirestore().then((val){
-    if(val.documents.length > 0){
-      print(deviceID);
-      print(val.documents[0].data["deviceID"]);
-    if (val.documents[0].data["deviceID"] == deviceID) {
-      deviceCheck = true;
-  }
-   return deviceCheck;   
-     }});
-     
-     }
 
 //sign in with email & password
-Future signInWithEmailAndPassword(String email, String password) async {
-  try {
+Future signInWithEmailAndPassword(String email, String password, bool deviceCheck) async {
+  String errorMessage;
 
-    bool deviceCheck = await checkDeviceID();
+  
 
     if (deviceCheck == true) {
+      FirebaseUser user;
 
+try {
     AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
-    FirebaseUser user = result.user;
-    deviceCheck = false;
-    return _userFromFirebaseUser(user); 
-    
-  }else {
-    print('test pass');
-    //RETURN ERROR STATING USER ALREADY HAS A REGISTERED DEVICE
-    return "This account is already registered with another device.";
-  }} catch(e) {
-    print(e.toString());
-    return null;
+      user = result.user;
+    //deviceCheck = false;
+    } catch (error) {
+    switch (error.code) {
+      case "ERROR_INVALID_EMAIL":
+        errorMessage = "Your email address appears to be malformed.";
+        return (errorMessage);
+        break;
+      case "ERROR_WRONG_PASSWORD":
+        errorMessage = "Your password is wrong.";
+        return (errorMessage);
+        break;
+      case "ERROR_USER_NOT_FOUND":
+        errorMessage = "User with this email doesn't exist.";
+        return (errorMessage);
+        break;
+      case "ERROR_USER_DISABLED":
+        errorMessage = "User with this email has been disabled.";
+        return (errorMessage);
+        break;
+      case "ERROR_TOO_MANY_REQUESTS":
+        errorMessage = "Too many requests. Try again later.";
+        return (errorMessage);
+        break;
+      case "ERROR_OPERATION_NOT_ALLOWED":
+        errorMessage = "Signing in with Email and Password is not enabled.";
+        return (errorMessage);
+        break;
+      default:
+        errorMessage = "An undefined Error happened.";
+        return (errorMessage);
+    }
   }
+     
+    
   
-          }
+    return _userFromFirebaseUser(user);
 
-         
+  }else {
+    //RETURN ERROR STATING USER ALREADY HAS A REGISTERED DEVICE
+     errorMessage = "This account is already registered with another device.";
+     return (errorMessage);
+  }}
         
-        
-        
-        
+          
         //register with email & password
         Future registerWithEmailAndPassword(String email, String password) async {
         String errorMessage = '';
@@ -104,11 +110,8 @@ Future signInWithEmailAndPassword(String email, String password) async {
         
         Future updateUserInformation(String firstName, String surname, String phoneNumer) async {
           FirebaseUser user = await _auth.currentUser();
-          String deviceID = await _getDeviceID();
-        
-          
-        
-        
+          String deviceID = await getDeviceID();
+               
           if (deviceID == null) {
             //RETURN ERROR MESSAGE
           } else {
@@ -116,7 +119,7 @@ Future signInWithEmailAndPassword(String email, String password) async {
           }
         }
         
-        Future<String> _getDeviceID() async {
+        Future<String> getDeviceID() async {
           DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
           if (Platform.isIOS == TargetPlatform.iOS) {
             IosDeviceInfo iosDeviceInfo = await deviceInfo.iosInfo;
@@ -126,6 +129,8 @@ Future signInWithEmailAndPassword(String email, String password) async {
             return androidDeviceInfo.androidId; // unique ID on Android
           }
         }
+
+        
     }
       
     

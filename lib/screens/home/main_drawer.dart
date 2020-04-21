@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:appcademy_v1/services/auth.dart';
-import 'package:appcademy_v1/services/globals.dart';
 import 'package:appcademy_v1/screens/authenticate/user_information.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -50,7 +49,6 @@ class MainDrawer extends StatelessWidget {
             Navigator.of(context).pop();
             userinformation = false;
             }
-            signInCounter = 0;
           },
                           title: Text('Log Out', style: TextStyle(color: Colors.red),)),
                       
