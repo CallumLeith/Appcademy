@@ -30,9 +30,10 @@ class _userInformationState extends State<UserInformation> {
       resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.white,
         elevation: 0.0,
-        title: Text('Sign In'),
+        title: Text('User Information', style: TextStyle(color: Colors.red),),
+        centerTitle: true,
       ),
       body: Container(
         decoration: gradientBackground,
@@ -41,7 +42,7 @@ class _userInformationState extends State<UserInformation> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20.0),
+              SizedBox(height: 100.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'First Name'),
                 validator: (val) => val.isEmpty ? 'Enter Your First Name' : null,
@@ -65,8 +66,11 @@ class _userInformationState extends State<UserInformation> {
                   setState(() => phoneNumber = val);
                 },
               ),
-              SizedBox(height: 20.0),
-              RaisedButton(
+              SizedBox(height: 40.0),
+              SizedBox(
+                 width: double.infinity,
+                height: 40,
+                child: RaisedButton(
                 color: Colors.red,
                 child: Text(
                   'Continue',
@@ -77,8 +81,8 @@ class _userInformationState extends State<UserInformation> {
                 //return _formKey.currentState.validate() ? Home() : null;    //CODE DOESNT WORK - WILL USE PUSH FOR NOW.  
                //  Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 //return SignedIn();           
-                }),
-              SizedBox(height: 12.0), 
+                })
+              ),
             ],
           ),
         )

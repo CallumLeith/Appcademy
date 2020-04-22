@@ -81,22 +81,43 @@ try {
         //register with email & password
         Future registerWithEmailAndPassword(String email, String password) async {
         String errorMessage = '';
-        
+        FirebaseUser user;
+           
+
           try {
-            AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-            FirebaseUser user = result.user;
-        
-            //create a new document for the user with the uid
-            //await DatabaseService(uid: user.uid).updateUserInfo('null', 'null', 'null');
-        
-            return _userFromFirebaseUser(user);
-          } catch(e) {
-            errorMessage = e.toString();
-            print(errorMessage);
-            return null;
-            
-            
-          }
+            //return _userFromFirebaseUser(user);
+              AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+               user = result.user;
+          } catch (error) {
+    switch (error.code) {
+      case "ERROR_OPERATION_NOT_ALLOWED":
+        errorMessage = "Anonymous accounts are not enabled";
+        return (errorMessage);
+        break;
+      case "ERROR_WEAK_PASSWORD":
+        errorMessage = "Your password is too weak";
+        return (errorMessage);
+        break;
+      case "ERROR_INVALID_EMAIL":
+        errorMessage = "Your email is invalid";
+        return (errorMessage);
+        break;
+      case "ERROR_EMAIL_ALREADY_IN_USE":
+        errorMessage = "Email is already in use on different account";
+        return (errorMessage);
+        break;
+      case "ERROR_INVALID_CREDENTIAL":
+        errorMessage = "Your email is invalid";
+        return (errorMessage);
+        break;
+
+      default:
+        errorMessage = "An undefined Error happened.";
+        return (errorMessage);
+    }
+  }
+
+  return _userFromFirebaseUser(user);
         }
         
         //sign out
@@ -110,12 +131,13 @@ try {
         
         Future updateUserInformation(String firstName, String surname, String phoneNumer) async {
           FirebaseUser user = await _auth.currentUser();
-          String deviceID = await getDeviceID();
+          String userDeviceID = await getDeviceID();
                
-          if (deviceID == null) {
+          if (userDeviceID == null) {
             //RETURN ERROR MESSAGE
           } else {
-          await DatabaseService(uid: user.uid).updateUserInfo(firstName, surname, phoneNumer, deviceID);
+          await DatabaseService(uid: user.uid).updateUserInfo(firstName, surname, phoneNumer);
+          await DatabaseService(uid: user.uid).updateDeviceID(userDeviceID);
           }
         }
         

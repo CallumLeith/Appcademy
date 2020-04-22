@@ -81,13 +81,11 @@ class _RegisterState extends State<Register> {
                   setState(() => confirmPassword = val);
                 },
               ),
-              SizedBox(height: 20.0),
-                    Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              ),
-              Spacer(),
-             RaisedButton(
+              SizedBox(height: 40.0),
+                SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: RaisedButton(
                 color: Colors.red,
                 child: Text(
                   'Register',
@@ -109,7 +107,15 @@ class _RegisterState extends State<Register> {
                     }
                   }
                 },
-              ),    
+              )
+                ),
+              SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
+              ),
+           
+             
 
             ],
             

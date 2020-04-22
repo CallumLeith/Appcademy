@@ -52,6 +52,8 @@ class _SignInState extends State<SignIn> {
         child: Form(
           key: _formKey,
           child: Column(
+           // crossAxisAlignment: CrossAxisAlignment.start,
+           // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 100.0),
 
@@ -74,13 +76,11 @@ class _SignInState extends State<SignIn> {
                   setState(() => password = val);
                 },
               ),
-               SizedBox(height: 12.0),
-              Text(
-                error,
-                style: TextStyle(color: Colors.red, fontSize: 14.0),
-              ),
-              Spacer(),
-              RaisedButton(
+               SizedBox(height: 40.0),
+               SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: RaisedButton(
                 color: Colors.red,
                 child: Text(
                   'Sign In',
@@ -109,6 +109,14 @@ class _SignInState extends State<SignIn> {
                   }
                 }}
               )
+               ),
+              SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
+              ),
+              //Spacer(),
+ 
              
 
             ],
