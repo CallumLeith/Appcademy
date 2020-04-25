@@ -20,16 +20,19 @@ class _RegisterState extends State<Register> {
 
    String email = '';
   String password = '';
+  String confirmPassword = '';
   String error = '';
 
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
+      resizeToAvoidBottomPadding: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.white,
         elevation: 0.0,
-        title: Text('Register'),
+        title: Text('Register', style: TextStyle(color: Colors.red),),
+        centerTitle: true,
         actions: <Widget>[
           FlatButton.icon(
             icon: Icon(Icons.person),
@@ -41,15 +44,19 @@ class _RegisterState extends State<Register> {
         ],
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+        decoration: gradientBackground,
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+          //  crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 20.0),
+              SizedBox(height: 100.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Email'),
                 validator: validateEmail,
+                autocorrect: false,
                 onChanged: (val) {
                   setState(() => email = val.trim());
                 },
@@ -59,6 +66,7 @@ class _RegisterState extends State<Register> {
                 decoration: textInputDecoration.copyWith(hintText: 'Password'),
                 validator: (val) => val.length < 6 ? 'Password too short' : null,
                 obscureText: true,
+                autocorrect: false,
                 onChanged: (val) {
                   setState(() => password = val);
                 },
@@ -66,14 +74,18 @@ class _RegisterState extends State<Register> {
               SizedBox(height: 20.0),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Comfirm Password'),
-                validator: (val) => val != password ? 'Passwords do not match' : null,
+                validator: (val) => val != confirmPassword ? 'Passwords do not match' : null,
                 obscureText: true,
+                autocorrect: false,
                 onChanged: (val) {
-                  setState(() => password = val);
+                  setState(() => confirmPassword = val);
                 },
               ),
-              SizedBox(height: 20.0),
-              RaisedButton(
+              SizedBox(height: 40.0),
+                SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: RaisedButton(
                 color: Colors.red,
                 child: Text(
                   'Register',
@@ -95,12 +107,15 @@ class _RegisterState extends State<Register> {
                     }
                   }
                 },
-              ),
+              )
+                ),
               SizedBox(height: 12.0),
               Text(
                 error,
                 style: TextStyle(color: Colors.red, fontSize: 14.0),
-              )
+              ),
+           
+             
 
             ],
             
